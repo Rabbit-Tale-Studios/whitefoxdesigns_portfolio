@@ -14,8 +14,8 @@ const sans = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Whitefox Designs — Logo Design & Brand Identity",
-    template: "%s — Whitefox Designs",
+    default: "Whitefox Designs - Logo Design & Brand Identity",
+    template: "%s - Whitefox Designs",
   },
   description: site.description,
   openGraph: {

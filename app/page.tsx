@@ -39,7 +39,7 @@ export default async function Home() {
         <div className="hero-visual">
           <div className="visual-caption">
             <span>THE MAKING OF A MARK</span>
-            <span>WF—01</span>
+            <span>WF-01</span>
           </div>
           <Image
             src="/brand/construction.png"
