@@ -1,0 +1,39 @@
+{
+  "name": "whitefox-designs",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "bun@1.4.0",
+  "scripts": {
+    "dev": "bun --bun next dev --port 3000",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start --port 3000",
+    "check": "biome check .",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "bun --bun next typegen && tsc --noEmit",
+    "validate": "bun run check && bun run check:content && bun run typecheck",
+    "test:e2e": "playwright test",
+    "test:api": "bun test tests/deviantart.test.ts",
+    "check:content": "bun scripts/check-content.ts",
+    "test:pricing": "bun test tests/pricing.test.ts"
+  },
+  "dependencies": {
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@biomejs/biome": "2.4.2",
+    "@playwright/test": "^1.63.0",
+    "@types/bun": "^1.4.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  },
+  "trustedDependencies": [
+    "sharp"
+  ]
+}

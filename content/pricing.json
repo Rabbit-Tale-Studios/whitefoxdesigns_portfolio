@@ -1,0 +1,17 @@
+{
+  "logo": {
+    "price": 150,
+    "discountPercent": 0,
+    "discountLabel": "Special offer"
+  },
+  "businessCards": {
+    "price": 40,
+    "discountPercent": 0,
+    "discountLabel": "Special offer"
+  },
+  "priority": {
+    "price": 70,
+    "discountPercent": 0,
+    "discountLabel": "Special offer"
+  }
+}

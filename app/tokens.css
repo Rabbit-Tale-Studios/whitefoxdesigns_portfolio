@@ -1,0 +1,24 @@
+:root {
+  --motion: 160ms;
+  --paper: #f5f3ed;
+  --sage: #b3c9b7;
+  --ink: #1e2724;
+  --tropical: #e0deb8;
+  --teal: #017c85;
+  --coral: #ed9181;
+  --orange: #e8ad84;
+  --background: var(--ink);
+  --text: var(--paper);
+  --muted: color-mix(in srgb, var(--paper) 72%, var(--background));
+  --accent: var(--sage);
+  --accent-ink: var(--sage);
+  --button: #365345;
+  --button-hover: #405f4e;
+  --on-button: var(--text);
+  --control-line: color-mix(in srgb, var(--sage) 25%, transparent);
+  --tint: color-mix(in srgb, var(--sage) 10%, var(--background));
+  --soft: color-mix(in srgb, var(--sage) 6%, var(--background));
+  --banner: color-mix(in srgb, var(--sage) 13%, var(--background));
+  --line: color-mix(in srgb, var(--sage) 14%, transparent);
+  color-scheme: dark;
+}
