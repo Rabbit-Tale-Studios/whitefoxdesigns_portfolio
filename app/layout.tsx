@@ -31,7 +31,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         type: "image/png",
-        alt: "Whitefox Designs — logo design and brand identity, with the Whitefox logo",
+        alt: "Whitefox Designs - logo design and brand identity, with the Whitefox logo",
       },
     ],
   },
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-image.png",
-        alt: "Whitefox Designs — logo design and brand identity, with the Whitefox logo",
+        alt: "Whitefox Designs - logo design and brand identity, with the Whitefox logo",
       },
     ],
   },
