@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
-import { formatPrice, offerNote, pricing } from "@/lib/pricing";
+import logoInclusions from "@/content/logo-inclusions.json";
+import {
+  formatPrice,
+  formatServicePrice,
+  offerNote,
+  pricing,
+} from "@/lib/pricing";
 
 export type TermBlock = { id: string } & (
   | { type: "title" | "microtitle" | "paragraph" | "note"; content: ReactNode }
@@ -18,32 +24,23 @@ export const contentData: Record<string, TermBlock[]> = {
       id: "term-2",
       type: "list",
       title: `- Logo Design ${formatPrice(pricing.logo.amount)} USD${offerNote(pricing.logo)}`,
-      items: [
-        "Single Payment",
-        "No limit of design approaches or revisions",
-        "High-quality editable vector files",
-        "Additional editable .psd files",
-        "Vault Service",
-        "Follow-up after the project is completed",
-        "All Commercial Rights",
-        "All Media Uses Allowed",
-      ],
+      items: logoInclusions,
     },
     {
       id: "term-3",
       type: "microtitle",
-      content: `- Business Card Design ${formatPrice(pricing.businessCards.amount)} USD${offerNote(pricing.businessCards)} (Subject to availability)`,
+      content: `- Business Card Design starting cost ${formatPrice(pricing.businessCards.amount)} up to ${formatPrice(pricing.businessCards.maxAmount)} USD depending on time required.${offerNote(pricing.businessCards)}`,
     },
     {
       id: "term-4",
       type: "microtitle",
-      content: `- Priority Projects additional ${formatPrice(pricing.priority.amount)} USD${offerNote(pricing.priority)} (Subject to availability) (Receive the first design approach within 72 hrs)`,
+      content: `- Priority Projects additional ${formatServicePrice(pricing.priority)}${offerNote(pricing.priority)} (Subject to availability) (Receive the first design approach within 72 hrs)`,
     },
     {
       id: "term-5",
       type: "note",
       content:
-        "IMPORTANT NOTE: The cost may increase if the workload exceeds the amount of a usual project. For further information please read the SERVICE section.",
+        "For further information about the included services, please read the SERVICE section.",
     },
   ],
   Payment: [
@@ -57,9 +54,11 @@ export const contentData: Record<string, TermBlock[]> = {
       type: "paragraph",
       content: (
         <Fragment>
-          To request a commission you will need to make a full payment of{" "}
+          Logo design costs{" "}
           <b className="inline-space">{formatPrice(pricing.logo.amount)} USD</b>
-          , only then the project will be considered
+          . To request a commission you will need to make full payment of the
+          invoiced total, including any requested additional services. Only then
+          will the project be considered
           <b className="inline-space">&quot;active&quot;</b>. I only accept
           payments through <b className="inline-space">Paypal</b>.
         </Fragment>
@@ -360,7 +359,7 @@ export const contentData: Record<string, TermBlock[]> = {
       id: "term-39",
       type: "paragraph",
       content:
-        "This is related to the last point. Some designers charge for each possible use of a design. They charge for printing, web, video, app, billboards, etc. I don't do that, once you paid me you can do whatever you want with your design without a need to tell me. You can sell it or modify it. I only keep the Author Rights which allows me to say I made the design and display it in my portfolios.",
+        "This is related to the last point. Some designers charge for each possible use of a design. They charge for printing, web, video, app, billboards, etc. I don't do that. Once you have paid me, you can use, sell, or modify your design within these Terms of Service without needing to tell me. The Prohibition on Data Training applies to all commercial uses. I only keep the Author Rights which allows me to say I made the design and display it in my portfolios.",
     },
     {
       id: "term-40",
@@ -377,7 +376,7 @@ export const contentData: Record<string, TermBlock[]> = {
       id: "term-42",
       type: "paragraph",
       content:
-        "You can use the logo unlimited times and in any media you want without requiring my permission or with an additional cost, even if you didn't clarify how you would use the design at the start of the project.",
+        "You can use the logo unlimited times and in any media without requiring my permission or paying an additional cost, even if you didn't clarify how you would use the design at the start of the project. All uses remain subject to the Prohibition on Data Training.",
     },
     {
       id: "term-43",
@@ -464,6 +463,28 @@ export const contentData: Record<string, TermBlock[]> = {
       ),
     },
     {
+      id: "term-65",
+      type: "microtitle",
+      content: "Prohibition on Data Training",
+    },
+    {
+      id: "term-66",
+      type: "paragraph",
+      content:
+        "Client/Licensee shall not, and shall not permit any third party to, use the delivered work, any portion of it, or its associated metadata as training data, input, fine-tuning material, or embedding sources for any artificial intelligence system, machine-learning model, or generative tool.",
+    },
+    {
+      id: "term-67",
+      type: "microtitle",
+      content: "Guarantee of no AI generation",
+    },
+    {
+      id: "term-68",
+      type: "paragraph",
+      content:
+        "All drafts and final deliverables are original works created entirely through human labor and creative skill.",
+    },
+    {
       id: "term-53",
       type: "microtitle",
       content: "What happens in the case of Multiple Discovery?",
@@ -519,7 +540,7 @@ export const contentData: Record<string, TermBlock[]> = {
       id: "term-58",
       type: "paragraph",
       content:
-        "Absolutely yes. You can use the logo however you want. The logo is an identity and as an identity, you can use it in any way you feel is right to identify yourself.",
+        "Absolutely yes. The logo is your identity and you can use it on other websites to identify yourself, subject to these Terms of Service, including the Prohibition on Data Training.",
     },
     {
       id: "term-59",

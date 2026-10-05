@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ContactBanner } from "@/components/contact-banner";
 import { ArrowUpRight, Check } from "@/components/icons";
 import { ServicePrice } from "@/components/service-price";
+import logoInclusions from "@/content/logo-inclusions.json";
 
 export const metadata: Metadata = {
   title: "Commissions",
@@ -10,14 +11,6 @@ export const metadata: Metadata = {
     "Custom logo design, editable vector files, and full commercial rights. Explore Whitefox’s services and commission process.",
 };
 
-const features = [
-  "High-quality editable vector files",
-  "Additional editable PSD files",
-  "All commercial rights & media uses",
-  "Vault Service for private projects",
-  "Follow-up support after completion",
-  "Design approaches & revisions*",
-];
 const steps = [
   {
     title: "Tell me your story.",
@@ -56,7 +49,7 @@ export default function Commissions() {
           <h2 id="pricing-title">A mark of your own.</h2>
           <ServicePrice service="logo" main />
           <ul className="features">
-            {features.map((feature) => (
+            {logoInclusions.map((feature) => (
               <li key={feature}>
                 <Check />
                 {feature}
@@ -67,8 +60,6 @@ export default function Commissions() {
             Start a conversation <ArrowUpRight />
           </Link>
           <p className="fine-print">
-            *No fixed limit of approaches or revisions within the usual project
-            workload. Additional work may increase the price with prior notice.{" "}
             <Link href="/tos#Service">Read the full service terms.</Link>
           </p>
         </div>
@@ -78,16 +69,16 @@ export default function Commissions() {
             <h3>Business cards</h3>
             <p>A physical extension of your identity.</p>
             <ServicePrice service="businessCards" />
-            <span className="fine-print">Subject to availability.</span>
+            <span className="fine-print">
+              Final cost depends on the time required.
+            </span>
           </article>
           <article className="add-on priority">
             <p className="eyebrow">A LITTLE SOONER</p>
             <h3>Priority projects</h3>
             <p>Receive your first design approach within 72 hours.</p>
             <ServicePrice service="priority" additional />
-            <span className="fine-print">
-              Additional fee. Subject to availability.
-            </span>
+            <span className="fine-print">Subject to availability.</span>
           </article>
         </div>
       </section>

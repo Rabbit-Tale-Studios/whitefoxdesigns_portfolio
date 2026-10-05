@@ -1,4 +1,4 @@
-import { formatPrice, pricing, type ServiceId } from "@/lib/pricing";
+import { formatServicePrice, pricing, type ServiceId } from "@/lib/pricing";
 
 export function ServicePrice({
   service,
@@ -12,6 +12,10 @@ export function ServicePrice({
   const price = pricing[service];
   const prefix = additional ? "+" : "";
   const discounted = price.discountPercent > 0;
+  const unit =
+    price.type === "percentage"
+      ? "additional"
+      : `USD${main ? " / single payment" : ""}`;
   return (
     <div className="price-block" data-service={service}>
       {discounted && (
@@ -20,10 +24,13 @@ export function ServicePrice({
             {price.discountLabel} · {price.discountPercent}% off
           </span>
           <p className="original-price">
-            Regular price{" "}
+            {price.type === "percentage"
+              ? "Regular surcharge"
+              : "Regular price"}{" "}
             <s>
               {prefix}
-              {formatPrice(price.price)} USD
+              {formatServicePrice(price, false)}
+              {price.type !== "percentage" ? " USD" : ""}
             </s>
           </p>
         </div>
@@ -32,8 +39,8 @@ export function ServicePrice({
         className={`${main ? "price" : "add-on-price"}${discounted ? " price-sale" : ""}`}
       >
         {prefix}
-        {formatPrice(price.amount)}
-        <span>USD{main ? " / single payment" : ""}</span>
+        {formatServicePrice(price)}
+        <span>{unit}</span>
       </p>
     </div>
   );

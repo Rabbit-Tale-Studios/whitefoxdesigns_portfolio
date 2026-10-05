@@ -13,6 +13,7 @@ const sans = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
     default: "Whitefox Designs - Logo Design & Brand Identity",
     template: "%s - Whitefox Designs",
@@ -22,6 +23,28 @@ export const metadata: Metadata = {
     title: "Whitefox Designs",
     description: site.description,
     type: "website",
+    siteName: site.name,
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+        alt: "Whitefox Designs — logo design and brand identity, with the Whitefox logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.name,
+    description: site.description,
+    images: [
+      {
+        url: "/og-image.png",
+        alt: "Whitefox Designs — logo design and brand identity, with the Whitefox logo",
+      },
+    ],
   },
 };
 

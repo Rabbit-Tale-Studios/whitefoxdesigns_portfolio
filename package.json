@@ -15,7 +15,8 @@
     "test:e2e": "playwright test",
     "test:api": "bun test tests/deviantart.test.ts",
     "check:content": "bun scripts/check-content.ts",
-    "test:pricing": "bun test tests/pricing.test.ts"
+    "test:pricing": "bun test tests/pricing.test.ts",
+    "create:og": "bun scripts/create-og.ts"
   },
   "dependencies": {
     "next": "16.3.8",

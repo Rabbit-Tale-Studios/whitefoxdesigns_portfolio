@@ -340,9 +340,6 @@ h3 {
   display: grid;
   place-items: center;
   aspect-ratio: 1.04;
-  /* background: var(--tint);
-  border: 1px solid var(--line); */
-  border-radius: 13px;
   padding: 56px;
   position: relative;
   overflow: hidden;

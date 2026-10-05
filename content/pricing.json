@@ -5,12 +5,13 @@
     "discountLabel": "Special offer"
   },
   "businessCards": {
-    "price": 40,
+    "price": 20,
+    "maxPrice": 150,
     "discountPercent": 0,
     "discountLabel": "Special offer"
   },
   "priority": {
-    "price": 70,
+    "percent": 50,
     "discountPercent": 0,
     "discountLabel": "Special offer"
   }

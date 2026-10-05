@@ -7,7 +7,7 @@ Your portfolio brings together your logo work, commission information, contact d
 - **Portfolio** (`/`): introduction, selected projects, and a link to your full DeviantArt gallery.
 - **Commissions** (`/commissions`): pricing, included services, and the design process.
 - **Contact** (`/contact`): email, social profiles, and the information clients should send.
-- **Terms of service** (`/tos`): your original pricing and service policies.
+- **Terms of service** (`/tos`): your current pricing and service policies.
 
 ## Preview your website
 
@@ -22,7 +22,7 @@ Visit [localhost:3000](http://localhost:3000). Keep the terminal open while prev
 
 ## Update your content
 
-**Contact details and social profiles:** edit `lib/site.ts`. Your email address is shared across the site automatically.
+**Contact details, website address, and social profiles:** edit `lib/site.ts`. The public website address is `https://whitefoxdesigns.net` and is used to build absolute share-preview image links. Your email address is shared across the site automatically.
 
 **Portfolio:** the website reads your artwork, original titles, project links, and publication dates from the DeviantArt API. The first six projects appear immediately. “Explore more work” reveals the rest of the first page, and “Load more projects” fetches older work. Publish or update work on DeviantArt to update the website automatically; there is no separate list to maintain.
 
@@ -39,7 +39,7 @@ Portfolio images come directly from DeviantArt and are optimized by Next.js. No 
 
 **Your introduction:** edit `app/page.tsx`.
 
-**Prices and discounts:** edit only `content/pricing.json`. Both the commissions page and the pricing/payment terms update from this file. See the examples below. Service descriptions can be edited in `app/commissions/page.tsx`.
+**Prices and discounts:** edit only `content/pricing.json`. Both the commissions page and the pricing/payment terms update from this file. See the examples below. Service descriptions can be edited in `app/commissions/page.tsx`. The logo inclusions are shared between the commissions page and terms through `content/logo-inclusions.json`.
 
 **Terms:** `lib/terms.tsx` contains your original service wording. Each section appears on the terms page and in its contents list automatically.
 
@@ -49,25 +49,34 @@ Portfolio images come directly from DeviantArt and are optimized by Next.js. No 
 
 ## Change a price or run a discount
 
-Open `content/pricing.json`. The three entries are `logo`, `businessCards`, and `priority`. All prices are in USD.
+Open `content/pricing.json`. The three entries are `logo`, `businessCards`, and `priority`.
 
-- Change `price` to set the normal price, for example `175` or `149.50`.
-- Set `discountPercent` to `0` for the normal price, or a percentage such as `20` to run a sale.
-- Change `discountLabel` to the offer name, such as “Summer offer.”
+- **Logo:** `logo.price` is the USD price. It is currently `175`.
+- **Business cards:** `businessCards.price` is the starting USD price, currently `20`. `maxPrice` is the upper end, currently `150`. The final cost depends on time required. Keep `maxPrice` at least as large as `price`.
+- **Priority projects:** `priority.percent` is the additional percentage, currently `50`. The website displays **+50%**, with the first design approach within 72 hours, subject to availability.
+- Each service has `discountPercent` and `discountLabel`. Set `discountPercent` to `0` for normal pricing or a percentage such as `20` for a sale. Give the sale a name with `discountLabel`.
 
-For a 20% discount on a $150 logo, the logo entry would be:
+For a 20% discount on a $175 logo, the logo entry would be:
 
 ```json
 "logo": {
-  "price": 150,
+  "price": 175,
   "discountPercent": 20,
   "discountLabel": "Summer offer"
 }
 ```
 
-The website displays $120, the original $150 price, and the offer label. The terms and required payment amount also show $120. Other services keep their own prices. To end the sale, set `discountPercent` back to `0`. Discounts are switched on and off manually; they have no automatic expiry. No discount is currently enabled.
+The website displays $140, the regular $175 price, and the offer label. The terms show the same current price. Business-card discounts apply to both ends of the range. A 20% discount on the 50% priority surcharge displays +40%. The payment terms require the invoiced total, including any requested additional services.
+
+To end a sale, set its `discountPercent` back to `0`. Discounts are switched on and off manually; they have no automatic expiry. No discount is currently enabled.
 
 Save the file and refresh the local preview. For the published site, commit and deploy the change through your hosting workflow. Run `bun run validate` first: it identifies invalid prices or discount percentages before publishing. Keep the JSON commas and quotation marks intact.
+
+## Sharing preview
+
+`public/og-image.png` is the 1200 × 630 image shown when a link is shared. It uses your supplied SVG logo, the local DM Sans font, and the website’s colors. Open Graph and Twitter/X metadata use it across your pages.
+
+After changing the logo or colors, run `bun run create:og` to rebuild it. The layout and text are in `scripts/create-og.ts`. Install the preview browser once with `bunx playwright install chromium` if needed. Deploy the updated image along with the website.
 
 ## Check and publish
 

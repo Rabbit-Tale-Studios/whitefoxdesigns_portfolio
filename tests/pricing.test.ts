@@ -1,25 +1,35 @@
 import { expect, test } from "bun:test";
-import { formatPrice, offerNote, parsePricing } from "@/lib/pricing";
+import {
+  formatPrice,
+  formatServicePrice,
+  offerNote,
+  parsePricing,
+} from "@/lib/pricing";
 
 const settings = {
-  logo: { price: 150, discountPercent: 0, discountLabel: "Special offer" },
+  logo: { price: 175, discountPercent: 0, discountLabel: "Special offer" },
   businessCards: {
-    price: 40,
+    price: 20,
+    maxPrice: 150,
     discountPercent: 0,
     discountLabel: "Special offer",
   },
-  priority: { price: 70, discountPercent: 0, discountLabel: "Special offer" },
+  priority: { percent: 50, discountPercent: 0, discountLabel: "Special offer" },
 };
 
-test("normal pricing has no offer and stays unchanged", () => {
+test("fixed prices, ranges, and surcharges use their correct units", () => {
   const prices = parsePricing(settings);
-  expect(prices.logo.amount).toBe(150);
-  expect(prices.businessCards.amount).toBe(40);
-  expect(prices.priority.amount).toBe(70);
+  expect(prices.logo.amount).toBe(175);
+  expect(prices.businessCards.amount).toBe(20);
+  expect(prices.businessCards.maxAmount).toBe(150);
+  expect(prices.priority.effectivePercent).toBe(50);
+  expect(formatServicePrice(prices.logo)).toBe("$175");
+  expect(formatServicePrice(prices.businessCards)).toBe("$20–$150");
+  expect(formatServicePrice(prices.priority)).toBe("50%");
   expect(offerNote(prices.logo)).toBe("");
 });
 
-test("discounts affect only the chosen service and preserve the original price", () => {
+test("logo discounts preserve the regular price and leave other services unchanged", () => {
   const prices = parsePricing({
     ...settings,
     logo: {
@@ -28,30 +38,55 @@ test("discounts affect only the chosen service and preserve the original price",
       discountLabel: "Autumn offer",
     },
   });
-  expect(prices.logo.price).toBe(150);
-  expect(prices.logo.amount).toBe(120);
-  expect(prices.businessCards.amount).toBe(40);
+  expect(prices.logo.price).toBe(175);
+  expect(prices.logo.amount).toBe(140);
+  expect(prices.businessCards.amount).toBe(20);
+  expect(prices.priority.effectivePercent).toBe(50);
   expect(offerNote(prices.logo)).toBe(
-    " (Autumn offer: 20% off; regular price $150 USD)",
+    " (Autumn offer: 20% off; regular price $175 USD)",
   );
 });
 
-test("discount calculations round monetary values to cents", () => {
+test("discounts apply to both ends of a price range", () => {
+  const prices = parsePricing({
+    ...settings,
+    businessCards: { ...settings.businessCards, discountPercent: 10 },
+  });
+  expect(prices.businessCards.amount).toBe(18);
+  expect(prices.businessCards.maxAmount).toBe(135);
+  expect(formatServicePrice(prices.businessCards)).toBe("$18–$135");
+  expect(formatServicePrice(prices.businessCards, false)).toBe("$20–$150");
+});
+
+test("priority discounts reduce the surcharge percentage rather than showing a dollar fee", () => {
+  const prices = parsePricing({
+    ...settings,
+    priority: { ...settings.priority, discountPercent: 20 },
+  });
+  expect(prices.priority.effectivePercent).toBe(40);
+  expect(formatServicePrice(prices.priority)).toBe("40%");
+  expect(offerNote(prices.priority)).toBe(
+    " (Special offer: 20% off; regular surcharge 50%)",
+  );
+});
+
+test("monetary discounts round to cents", () => {
   const prices = parsePricing({
     ...settings,
     businessCards: {
       ...settings.businessCards,
       price: 19.99,
+      maxPrice: 49.99,
       discountPercent: 15,
     },
   });
   expect(prices.businessCards.amount).toBe(16.99);
-  expect(formatPrice(prices.businessCards.amount)).toBe("$16.99");
-  expect(formatPrice(150)).toBe("$150");
+  expect(prices.businessCards.maxAmount).toBe(42.49);
+  expect(formatPrice(175)).toBe("$175");
 });
 
-test("invalid prices and discounts report the exact field to correct", () => {
-  for (const price of [-1, 0, 1.234, "150", Number.NaN])
+test("invalid settings identify the exact field", () => {
+  for (const price of [-1, 0, 1.234, "175", Number.NaN])
     expect(() =>
       parsePricing({ ...settings, logo: { ...settings.logo, price } }),
     ).toThrow("logo.price");
@@ -68,17 +103,33 @@ test("invalid prices and discounts report the exact field to correct", () => {
       logo: { ...settings.logo, discountLabel: 123 },
     }),
   ).toThrow("logo.discountLabel");
+  for (const maxPrice of [10, "150", Number.NaN])
+    expect(() =>
+      parsePricing({
+        ...settings,
+        businessCards: { ...settings.businessCards, maxPrice },
+      }),
+    ).toThrow("businessCards.maxPrice");
+  for (const percent of [-1, 101, "50", Number.NaN])
+    expect(() =>
+      parsePricing({
+        ...settings,
+        priority: { ...settings.priority, percent },
+      }),
+    ).toThrow("priority.percent");
 });
 
-test("empty offer labels get a readable default and 100 percent discounts work", () => {
+test("empty offer labels and free offers format clearly", () => {
   const prices = parsePricing({
     ...settings,
+    businessCards: { ...settings.businessCards, discountPercent: 100 },
     priority: {
       ...settings.priority,
       discountPercent: 100,
       discountLabel: " ",
     },
   });
-  expect(prices.priority.amount).toBe(0);
+  expect(formatServicePrice(prices.businessCards)).toBe("$0");
+  expect(prices.priority.effectivePercent).toBe(0);
   expect(prices.priority.discountLabel).toBe("Special offer");
 });

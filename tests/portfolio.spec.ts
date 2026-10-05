@@ -1,5 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import logoInclusions from "@/content/logo-inclusions.json";
+import { formatPrice, formatServicePrice, pricing } from "@/lib/pricing";
 
 test("pages render without errors, overflow, or accessibility violations", async ({
   page,
@@ -146,16 +148,36 @@ test("contact links and copy-email control work", async ({ page, context }) => {
   await expect(page.locator(".social-list a")).toHaveCount(5);
 });
 
-test("all original service sections and core prices remain available", async ({
+test("commission pricing and included services agree with the terms", async ({
   page,
 }) => {
+  await page.goto("/commissions");
+  await expect(page.locator('[data-service="logo"] .price')).toContainText(
+    formatPrice(pricing.logo.amount),
+  );
+  await expect(
+    page.locator('[data-service="businessCards"] .add-on-price'),
+  ).toContainText(formatServicePrice(pricing.businessCards));
+  await expect(
+    page.locator('[data-service="priority"] .add-on-price'),
+  ).toContainText(`+${formatServicePrice(pricing.priority)}`);
+  await expect(page.locator(".features li")).toHaveText(logoInclusions);
   await page.goto("/tos");
   await expect(page.locator(".terms-content > section")).toHaveCount(7);
-  await expect(page.locator("#Prices")).toContainText("Logo Design $150 USD");
   await expect(page.locator("#Prices")).toContainText(
-    "Business Card Design $40 USD",
+    `Logo Design ${formatPrice(pricing.logo.amount)} USD`,
   );
-  await expect(page.locator("#Prices")).toContainText("additional $70 USD");
+  await expect(page.locator("#Prices")).toContainText(
+    `Business Card Design starting cost ${formatPrice(pricing.businessCards.amount)} up to ${formatPrice(pricing.businessCards.maxAmount)} USD depending on time required.`,
+  );
+  await expect(page.locator("#Prices")).toContainText(
+    `additional ${formatServicePrice(pricing.priority)}`,
+  );
+  await expect(page.locator("#Prices li")).toHaveText(logoInclusions);
+  await expect(page.locator("#Payment")).toContainText(
+    formatPrice(pricing.logo.amount),
+  );
+  await expect(page.locator("#Payment")).toContainText("invoiced total");
   await expect(page.locator("#Payment")).toContainText(
     "Please don’t send any payment without receiving an invoice first.",
   );
