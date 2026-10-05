@@ -37,27 +37,16 @@ export default async function Home() {
           </div>
         </div>
         <div className="hero-visual">
-          <div className="visual-caption">
-            <span>THE MAKING OF A MARK</span>
-            <span>WF-01</span>
-          </div>
           <Image
-            src="/brand/construction.png"
-            width={612}
-            height={612}
+            src="/brand/logo.svg"
+            width={792}
+            height={748}
             sizes="(max-width: 760px) 90vw, 42vw"
-            alt="The original Whitefox symbol, with geometric construction lines"
+            alt="Whitefox Designs logo"
             preload
-            className="construction-art"
+            unoptimized
+            className="hero-logo"
           />
-          <div className="visual-bottom">
-            <span>
-              From a simple idea
-              <br />
-              to something unmistakable.
-            </span>
-            <span className="visual-stamp">wf.</span>
-          </div>
         </div>
       </section>
       <div className="specialties wrap">

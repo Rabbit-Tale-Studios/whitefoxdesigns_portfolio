@@ -1,6 +1,6 @@
 export const site = {
   name: "Whitefox Designs",
-  email: "commissions@whitefoxdesigns.net",
+  email: "whitefoxldesigns@gmail.com",
   description:
     "Distinctive logo design and brand identities by Whitefox Designs. Explore the portfolio, commission a logo, and find an identity that tells your story.",
   socials: [

@@ -85,6 +85,6 @@ Run `bun run test:api` for the API integration checks and `bun run test:pricing`
 
 ## Artwork and fonts
 
-The Whitefox symbol and construction drawing are retained from the original website. Portfolio artwork, titles, links, and publication dates are loaded from the [Whitefox Designs gallery](https://www.deviantart.com/whitefoxdesigns/gallery/); each image links to its original project. All designs belong to their respective owners. No artwork has been generated.
+The supplied Whitefox Designs 2024 SVG is used in the header, footer, and main logo display. Its vector shapes and white fill are preserved. To replace it, update `public/brand/logo.svg`; the matching browser icon is in `app/icon.svg`. Portfolio artwork, titles, links, and publication dates are loaded from the [Whitefox Designs gallery](https://www.deviantart.com/whitefoxdesigns/gallery/); each image links to its original project. All designs belong to their respective owners. No artwork has been generated.
 
 DM Sans is served locally. Its license is included in `app/fonts/LICENSE.txt`.

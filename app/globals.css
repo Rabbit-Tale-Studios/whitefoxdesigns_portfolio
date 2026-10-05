@@ -240,10 +240,10 @@ h3 {
   flex-shrink: 0;
   line-height: 1;
 }
-.brand > svg {
-  width: 31px;
-  height: 49px;
-  color: var(--accent);
+.brand > .brand-mark {
+  width: 44px;
+  height: auto;
+  flex-shrink: 0;
 }
 .brand > span {
   font-size: 1.5rem;
@@ -330,41 +330,22 @@ h3 {
   font-size: 1.4rem;
   line-height: 1;
 }
+.hero-logo {
+  width: 100%;
+  height: auto;
+}
 .hero-visual {
-  background: var(--tint);
-  border: 1px solid var(--line);
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1.04;
+  /* background: var(--tint);
+  border: 1px solid var(--line); */
   border-radius: 13px;
-  padding: 22px;
+  padding: 56px;
   position: relative;
   overflow: hidden;
-}
-.visual-caption {
-  display: flex;
-  justify-content: space-between;
-  font-family: monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.05em;
-  color: var(--muted);
-}
-.construction-art {
-  width: 100%;
-  margin-block: 24px 17px;
-}
-.visual-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  color: var(--muted);
-}
-.visual-bottom > span:first-child {
-  font-size: 0.69rem;
-  line-height: 1.5;
-}
-.visual-stamp {
-  font-size: 1.9rem;
-  letter-spacing: -0.1em;
-  font-weight: 500;
-  color: var(--orange);
 }
 .specialties {
   display: flex;
@@ -418,7 +399,7 @@ h3 {
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  background: var(--ink);
+  background: var(--gallery-background);
   aspect-ratio: 650 / 520;
 }
 .project-art > img {
@@ -1122,11 +1103,8 @@ summary::-webkit-details-marker {
   .hero-note {
     margin-top: 28px;
   }
-  .visual-caption {
-    font-size: 0.49rem;
-  }
   .hero-visual {
-    padding: 17px;
+    padding: 36px;
   }
   .hero-actions {
     margin-top: 25px;
@@ -1212,9 +1190,9 @@ summary::-webkit-details-marker {
   .header-inner {
     min-height: 78px;
   }
-  .brand > svg {
-    width: 26px;
-    height: 40px;
+  .brand > .brand-mark {
+    width: 36px;
+    height: auto;
   }
   .brand > span {
     font-size: 1.3rem;
@@ -1297,17 +1275,10 @@ summary::-webkit-details-marker {
     margin-top: 25px;
   }
   .hero-visual {
-    padding: 19px;
+    padding: 36px;
     max-width: 510px;
     width: 100%;
     justify-self: center;
-  }
-  .construction-art {
-    max-width: 380px;
-    margin: 20px auto 16px;
-  }
-  .visual-caption {
-    font-size: 0.6rem;
   }
   .specialties {
     flex-wrap: wrap;

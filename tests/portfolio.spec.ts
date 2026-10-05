@@ -23,6 +23,53 @@ test("pages render without errors, overflow, or accessibility violations", async
   expect(errors).toEqual([]);
 });
 
+test("hero logo stays sized while loading on wide screens", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "Covers the wide desktop layout.");
+  await page.setViewportSize({ width: 1920, height: 1000 });
+  let releaseLogo: () => void = () => {};
+  const logoReady = new Promise<void>((resolve) => {
+    releaseLogo = resolve;
+  });
+  await page.route("**/brand/logo.svg", async (route) => {
+    await logoReady;
+    await route.continue();
+  });
+  let initialWidth = 0;
+  try {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    const card = await page.locator(".hero-visual").boundingBox();
+    const logo = await page.locator(".hero-logo").boundingBox();
+    expect(card?.width).toBeGreaterThan(450);
+    expect(logo?.width).toBeGreaterThan(250);
+    initialWidth = card?.width ?? 0;
+  } finally {
+    releaseLogo();
+  }
+  await expect
+    .poll(() =>
+      page
+        .locator(".hero-logo")
+        .evaluate((image) => (image as HTMLImageElement).naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  const loadedCard = await page.locator(".hero-visual").boundingBox();
+  expect(Math.abs((loadedCard?.width ?? 0) - initialWidth)).toBeLessThan(1);
+  for (const width of [390, 1440, 1500, 2560]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await expect(page.locator(".hero-logo")).toBeVisible();
+    const logo = await page.locator(".hero-logo").boundingBox();
+    expect(logo?.width).toBeGreaterThan(200);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
 test("gallery expands and keeps API requests on the server", async ({
   page,
 }) => {

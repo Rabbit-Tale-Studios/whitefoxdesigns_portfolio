@@ -8,6 +8,7 @@
   --coral: #ed9181;
   --orange: #e8ad84;
   --background: var(--ink);
+  --gallery-background: #0e121a;
   --text: var(--paper);
   --muted: color-mix(in srgb, var(--paper) 72%, var(--background));
   --accent: var(--sage);

@@ -134,10 +134,10 @@ export const contentData: Record<string, TermBlock[]> = {
         <Fragment>
           Please send an email to
           <Link
-            href="mailto:commissions@whitefoxdesigns.net"
+            href="mailto:whitefoxldesigns@gmail.com"
             className="inline-space"
           >
-            commissions@whitefoxdesigns.net
+            whitefoxldesigns@gmail.com
           </Link>
           ,
           <Link
