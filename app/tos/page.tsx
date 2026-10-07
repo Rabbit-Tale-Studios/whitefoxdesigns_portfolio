@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "@/components/icons";
+import { TermsNavigation } from "@/components/terms-navigation";
 import { contentData, type TermBlock } from "@/lib/terms";
 
 export const metadata: Metadata = {
@@ -45,15 +45,12 @@ export default function Terms() {
       <div className="terms-layout">
         <aside className="terms-sidebar">
           <p className="eyebrow">TERMS OF SERVICE</p>
-          <nav aria-label="Terms sections">
-            {sections.map(([id, blocks], index) => (
-              <a key={id} href={`#${id}`}>
-                <span>0{index + 1}</span>
-                {blocks[0].type === "title" ? blocks[0].content : id}
-                <ArrowUpRight />
-              </a>
-            ))}
-          </nav>
+          <TermsNavigation
+            sections={sections.map(([id, blocks]) => ({
+              id,
+              label: blocks[0].type === "title" ? blocks[0].content : id,
+            }))}
+          />
         </aside>
         <article className="terms-content" aria-label="Terms of service">
           {sections.map(([id, blocks]) => (

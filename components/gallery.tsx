@@ -5,6 +5,15 @@ import { Plus } from "@/components/icons";
 import { ProjectCard } from "@/components/project-card";
 import type { GalleryPage } from "@/lib/gallery-types";
 
+function LoadingLabel({ loading, idle }: { loading: boolean; idle: string }) {
+  return (
+    <span className="button-label">
+      <span data-active={!loading}>{idle}</span>
+      <span data-active={loading}>Loading projects…</span>
+    </span>
+  );
+}
+
 export function Gallery({ initialPage }: { initialPage: GalleryPage }) {
   const [gallery, setGallery] = useState(initialPage);
   const [loading, setLoading] = useState(false);
@@ -59,8 +68,10 @@ export function Gallery({ initialPage }: { initialPage: GalleryPage }) {
       {(gallery.projects.length > 6 || gallery.hasMore) && (
         <details className="more-work">
           <summary className="button button-outline">
-            <span className="when-closed">Explore more work</span>
-            <span className="when-open">Show fewer projects</span>
+            <span className="button-label">
+              <span className="when-closed">Explore more work</span>
+              <span className="when-open">Show fewer projects</span>
+            </span>
             <Plus />
           </summary>
           <div className="project-grid">
@@ -80,7 +91,7 @@ export function Gallery({ initialPage }: { initialPage: GalleryPage }) {
                 disabled={loading}
                 onClick={() => loadPage(gallery.nextOffset ?? 0)}
               >
-                {loading ? "Loading projects…" : "Load more projects"}
+                <LoadingLabel loading={loading} idle="Load more projects" />
                 <Plus />
               </button>
             )}
@@ -101,7 +112,7 @@ export function Gallery({ initialPage }: { initialPage: GalleryPage }) {
               disabled={loading}
               onClick={() => loadPage(0)}
             >
-              {loading ? "Loading projects…" : "Try again"}
+              <LoadingLabel loading={loading} idle="Try again" />
             </button>
           )}
         </div>

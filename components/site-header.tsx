@@ -44,7 +44,11 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link href="/contact" className="button button-small header-contact">
+        <Link
+          href="/contact"
+          className="button button-small header-contact"
+          aria-current={pathname === "/contact" ? "page" : undefined}
+        >
           Let’s talk <ArrowUpRight />
         </Link>
         <details
