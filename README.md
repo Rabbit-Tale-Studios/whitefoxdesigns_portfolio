@@ -22,7 +22,7 @@ Visit [localhost:3000](http://localhost:3000). Keep the terminal open while prev
 
 ## Update your content
 
-**Contact details, website address, and social profiles:** edit `lib/site.ts`. The public website address is `https://whitefoxdesigns.net` and is used to build absolute share-preview image links. Your email address is shared across the site automatically.
+**Contact details, website address, and social profiles:** edit `lib/site.ts`. The public website address is `https://whitefoxdesigns.net` and is used for canonical page addresses, the sitemap, structured business information, and sharing-image links. Your email address is shared across the site automatically.
 
 **Portfolio:** the website reads your artwork, original titles, project links, and publication dates from the DeviantArt API. The first six projects appear immediately. “Explore more work” reveals the rest of the first page, and “Load more projects” fetches older work. Publish or update work on DeviantArt to update the website automatically; there is no separate list to maintain.
 
@@ -77,6 +77,41 @@ Save the file and refresh the local preview. For the published site, commit and 
 `public/og-image.png` is the 1200 × 630 image shown when a link is shared. It uses your supplied SVG logo, the local DM Sans font, and the website’s colors. Open Graph and Twitter/X metadata use it across your pages.
 
 After changing the logo or colors, run `bun run create:og` to rebuild it. The layout and text are in `scripts/create-og.ts`. Install the preview browser once with `bunx playwright install chromium` if needed. Deploy the updated image along with the website.
+
+## Search visibility
+
+Page titles and search descriptions live in `lib/seo.ts`. Keep each description specific to the page and its real services. This file also supplies the page addresses in `/sitemap.xml`. When adding a page, add its entry here and use its metadata on that page. Contact details, the business name, and social links still come from `lib/site.ts`.
+
+Every public page has a canonical address on `https://whitefoxdesigns.net`, plus its own Open Graph and Twitter/X title and description. The homepage identifies the business and website with structured data. It uses your existing `app/icon.svg` as the search logo because its dark background keeps the white artwork visible. The existing sharing image stays at `public/og-image.png`.
+
+The generated `/robots.txt` allows normal search engines to crawl public pages, images, and scripts, and points to the sitemap. It excludes the gallery API and disallows the AI crawlers listed below. The sitemap lists the four public pages and does not invent update dates. Your first gallery page is present in the initial HTML; older work reached through “Load more projects” remains available on DeviantArt.
+
+### AI crawler preferences
+
+`app/robots.txt/route.ts` serves Cloudflare-compatible Content Signals: `search=yes, ai-train=no, ai-input=no`. It also disallows Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, Google-Extended, GPTBot, and meta-externalagent, using the crawler list in [Cloudflare’s documentation](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/). Normal Google, Bing, and Apple search crawlers remain allowed.
+
+These are voluntary crawler instructions, not a firewall. To enforce blocking for `whitefoxdesigns.net`, sign in to its Cloudflare account, open **Security > Settings > Configure AI bot policies**, set **Training** to **Block (on all pages)**, and enable **Bot Preference Sync**. Use **AI Crawl Control** to review and block additional AI crawlers. These account settings are separate from publishing this repository and have not been enabled by the site code.
+
+After enabling Cloudflare controls, inspect the public `/robots.txt` to confirm the combined Cloudflare and site rules still allow normal search indexing. Cloudflare may prepend its managed rules to this site's response. See [AI bot policies](https://developers.cloudflare.com/bots/additional-configurations/block-ai-bots/) for current options.
+
+### After publishing
+
+1. Verify `whitefoxdesigns.net` as a Domain property in [Google Search Console](https://search.google.com/search-console/about), using the DNS record Google supplies. No verification token is included in the repository.
+2. Submit `https://whitefoxdesigns.net/sitemap.xml`. Inspect the homepage and commissions page with URL Inspection, check the selected canonical, and request indexing after meaningful updates.
+3. At your hosting provider, make HTTPS on `whitefoxdesigns.net` the primary address. Redirect the HTTP and www versions permanently to the same paths on that address. Keep preview deployments protected or marked noindex in hosting settings.
+4. Test the published homepage with [Rich Results Test](https://search.google.com/test/rich-results) and [PageSpeed Insights](https://pagespeed.web.dev/). Review mobile loading, responsiveness, and layout stability. This small site may not have enough traffic for field measurements yet.
+5. Review Search Console indexing and search queries after Google has recrawled the site. Compare impressions, clicks, and enquiries over time; metadata changes do not guarantee higher rankings.
+
+### Ongoing improvements
+
+- Use original, descriptive project titles on DeviantArt, since the portfolio displays these titles and uses them in image descriptions.
+- The next useful content expansion is individual project case studies on this website: the real client brief, design decisions, finished artwork, and a link to commission work. Publish only information you are allowed to share, respecting the Vault Service and project rights.
+- Link this website from your established portfolio and social profiles. Seek relevant, earned mentions through real work and collaborations.
+- Keep service information accurate and write for prospective clients. Avoid repetitive keywords, purchased links, invented testimonials, and duplicate pages targeting different search phrases.
+
+These practices follow [Google’s SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), [canonical URL guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls), [sitemap guidance](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap), and [organization structured data guidance](https://developers.google.com/search/docs/appearance/structured-data/organization).
+
+Run `bun run test:e2e -- tests/seo.spec.ts` after a successful build to check metadata without JavaScript, sharing images, structured data, crawler files, and missing-page behavior.
 
 ## Check and publish
 
